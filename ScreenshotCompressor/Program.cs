@@ -62,9 +62,9 @@ namespace ScreenshotCompressor
 
                 var memStream = streams.OrderByDescending(stream => stream.Length).First();
 
-                Console.WriteLine("done!");
                 Clipboard.SetImage(System.Drawing.Image.FromStream(memStream));
                 Parallel.ForEach(streams, stream => stream.Dispose());
+                Console.WriteLine("done!");
                 _lastEvent = DateTime.UtcNow;
             }
         }
@@ -73,7 +73,7 @@ namespace ScreenshotCompressor
         {
             var streams = new ConcurrentBag<MemoryStream>();
 
-            Parallel.For(0, 10, new ParallelOptions {MaxDegreeOfParallelism = 10}, compression =>
+            Parallel.For(0, 4, new ParallelOptions {MaxDegreeOfParallelism = 5}, compression =>
             {
                 Console.WriteLine($"Running at compression level {compression}");
                 var stream = new MemoryStream();
